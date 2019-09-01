@@ -1,0 +1,37 @@
+.navigation-contianer {
+  box-sizing: border-box;
+  padding: 7px 15px;
+  background: #51d84a;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  justify-content: space-around;
+  .nav-logo {
+    font-family: 'Blinker';
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 35px;
+    color: white;
+  }
+  .nav-items-contianer {
+    display: flex;
+    align-items: center;
+    &__button {
+      font-family: 'Barlow Semi Condensed';
+      font-size: 18px;
+      padding: 5px 15px;
+      margin: 0px 5px;
+      border-radius: 5px;
+      outline: none;
+      border: none;
+      background: none;
+      cursor: pointer;
+      &:hover {
+        background: rgba(0, 0, 0, 0.08);
+      }
+      &.activated-button {
+        background: rgba(0, 0, 0, 0.08);
+      }
+    }
+  }
+}

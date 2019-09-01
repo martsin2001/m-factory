@@ -1,0 +1,70 @@
+<div class="sign-in-contaner">
+  <div class="sign-in-card">
+    <div class="sign-in-card__title">Sign In</div>
+    <form [formGroup]="signUpForm" #signUp="ngForm">
+      <mat-form-field [floatLabel]="'auto'">
+        <input
+          matInput
+          type="text"
+          placeholder="Name.."
+          formControlName="name"
+        />
+        <div class="error-wrapper" *ngIf="showErrors(signUpForm.get('name'))">
+          <app-error-mapping
+            [currentError]="{
+              errorKey: signUpForm.get('name').errors,
+              mappingKey: 'name'
+            }"
+          ></app-error-mapping>
+        </div>
+      </mat-form-field>
+      <mat-form-field [floatLabel]="'auto'">
+        <input
+          matInput
+          type="email"
+          placeholder="Email.."
+          formControlName="email"
+        />
+        <div class="error-wrapper" *ngIf="showErrors(signUpForm.get('email'))">
+          <app-error-mapping
+            [currentError]="{
+              errorKey: signUpForm.get('email').errors,
+              mappingKey: 'email'
+            }"
+          ></app-error-mapping>
+        </div>
+      </mat-form-field>
+      <mat-form-field [floatLabel]="'auto'">
+        <input
+          matInput
+          type="password"
+          placeholder="Password.."
+          formControlName="password"
+        />
+        <div
+          class="error-wrapper"
+          *ngIf="showErrors(signUpForm.get('password'))"
+        >
+          <app-error-mapping
+            [currentError]="{
+              errorKey: signUpForm.get('password').errors,
+              mappingKey: 'password'
+            }"
+          ></app-error-mapping>
+        </div>
+      </mat-form-field>
+      <div class="form-error" *ngIf="formErorr">
+        {{ formErorr }}
+      </div>
+      <div class="submit-button-contianer">
+        <button
+          class="submit"
+          (click)="submit()"
+          [disabled]="(signUpForm.invalid && isFormSubmited) || isSubmitting"
+        >
+          {{ isSubmitting ? 'Submitting..' : 'Submit' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
