@@ -27,10 +27,17 @@ export class AuthService {
   }
 
   signup(user: { name: string; email: string; password: string }) {
-    return this.http.post(this.SIGNUP_API, user, {
-      observe: 'response',
-      responseType: 'text'
-    });
+    return this.http
+      .post(this.SIGNUP_API, user, {
+        observe: 'response',
+        responseType: 'text'
+      })
+      .pipe(
+        tap((res: HttpResponse<any>) => {
+          const token = JSON.parse(res.body).token;
+          this.setToken = token;
+        })
+      );
   }
 
   removeToken() {

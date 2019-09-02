@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -8,8 +8,8 @@ import {
 } from '@angular/forms';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { catchError, takeUntil } from 'rxjs/operators';
+import { throwError, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,13 +17,15 @@ import { Router } from '@angular/router';
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.scss']
 })
-export class SigninComponent implements OnInit {
+export class SigninComponent implements OnInit, OnDestroy {
   @ViewChild('signIn', { static: false }) signIn: NgForm;
 
   signInForm: FormGroup;
   isFormSubmited: boolean;
   isSubmitting: boolean;
   formErorr: string;
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private fb: FormBuilder,
@@ -32,7 +34,13 @@ export class SigninComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.removeToken();
     this.initSignInForm();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   submit() {
@@ -44,8 +52,10 @@ export class SigninComponent implements OnInit {
         .pipe(
           catchError((error: HttpErrorResponse) => {
             this.formErorr = error.error;
+            this.isSubmitting = false;
             return throwError(error);
-          })
+          }),
+          takeUntil(this.destroy$)
         )
         .subscribe((res: HttpResponse<any>) => {
           if (res.status === 200) {
@@ -60,6 +70,10 @@ export class SigninComponent implements OnInit {
 
   showErrors(field: AbstractControl): boolean {
     return field.invalid && (field.touched || this.isFormSubmited);
+  }
+
+  private removeToken() {
+    this.authService.removeToken();
   }
 
   private initSignInForm() {

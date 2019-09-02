@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -8,22 +8,24 @@ import {
 } from '@angular/forms';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { Router } from '@angular/router';
-import { catchError } from 'rxjs/operators';
+import { catchError, takeUntil } from 'rxjs/operators';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { throwError } from 'rxjs';
+import { throwError, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, OnDestroy {
   @ViewChild('signUp', { static: false }) signUp: NgForm;
 
   signUpForm: FormGroup;
   isFormSubmited: boolean;
   isSubmitting: boolean;
   formErorr: string;
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private fb: FormBuilder,
@@ -32,7 +34,13 @@ export class SignupComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.removeToken();
     this.initsignUpForm();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   submit() {
@@ -44,12 +52,14 @@ export class SignupComponent implements OnInit {
         .pipe(
           catchError((error: HttpErrorResponse) => {
             this.formErorr = error.error;
+            this.isSubmitting = false;
             return throwError(error);
-          })
+          }),
+          takeUntil(this.destroy$)
         )
         .subscribe((res: HttpResponse<any>) => {
           if (res.status === 200) {
-            this.resetsignUpForm();
+            this.resetSignUpForm();
             this.isSubmitting = false;
             this.router.navigateByUrl('/about-us');
           }
@@ -60,6 +70,10 @@ export class SignupComponent implements OnInit {
 
   showErrors(field: AbstractControl): boolean {
     return field.invalid && (field.touched || this.isFormSubmited);
+  }
+
+  private removeToken() {
+    this.authService.removeToken();
   }
 
   private initsignUpForm() {
@@ -73,7 +87,7 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  private resetsignUpForm() {
+  private resetSignUpForm() {
     this.isFormSubmited = false;
     this.signUpForm.reset();
     this.signUpForm.updateValueAndValidity();
