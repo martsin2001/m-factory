@@ -61,7 +61,7 @@ export class SigninComponent implements OnInit, OnDestroy {
           if (res.status === 200) {
             this.resetSignInForm();
             this.isSubmitting = false;
-            this.router.navigateByUrl('/about-us');
+            this.router.navigateByUrl('/main-toolbar');
           }
         });
     }

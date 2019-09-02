@@ -61,7 +61,7 @@ export class SignupComponent implements OnInit, OnDestroy {
           if (res.status === 200) {
             this.resetSignUpForm();
             this.isSubmitting = false;
-            this.router.navigateByUrl('/about-us');
+            this.router.navigateByUrl('/main-toolbar');
           }
         });
     }

@@ -11,13 +11,19 @@ const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () =>
-      import('./components/auth/auth.module').then(m => m.AuthModule)
+      import('./components/auth/auth.module').then(m => m.AuthModule),
+    pathMatch: 'prefix'
   },
   {
     path: 'about-us',
     loadChildren: () =>
-      import('./components/about-us/about-us.module').then(
-        m => m.AboutUsModule
+      import('./components/about-us/about-us.module').then(m => m.AboutUsModule)
+  },
+  {
+    path: 'main-toolbar',
+    loadChildren: () =>
+      import('./components/main-toolbar/main-toolbar.module').then(
+        m => m.MainToolbarModule
       ),
     canActivate: [AuthGuardService]
   },
