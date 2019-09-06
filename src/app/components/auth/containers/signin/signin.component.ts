@@ -11,6 +11,9 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { catchError, takeUntil } from 'rxjs/operators';
 import { throwError, Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { ChatState } from 'src/app/core/chat/chat.reducer';
+import { ClearUp } from 'src/app/core/chat/chat.action';
 
 @Component({
   selector: 'app-signin',
@@ -30,11 +33,13 @@ export class SigninComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private store: Store<ChatState>
   ) {}
 
   ngOnInit() {
     this.removeToken();
+    this.clearUpRedux();
     this.initSignInForm();
   }
 
@@ -61,6 +66,7 @@ export class SigninComponent implements OnInit, OnDestroy {
           if (res.status === 200) {
             this.resetSignInForm();
             this.isSubmitting = false;
+            localStorage.setItem('key', JSON.parse(res.body).userKey);
             this.router.navigateByUrl('/main-toolbar');
           }
         });
@@ -91,5 +97,9 @@ export class SigninComponent implements OnInit, OnDestroy {
     this.signInForm.reset();
     this.signInForm.updateValueAndValidity();
     this.signIn.resetForm();
+  }
+
+  private clearUpRedux() {
+    this.store.dispatch(new ClearUp());
   }
 }

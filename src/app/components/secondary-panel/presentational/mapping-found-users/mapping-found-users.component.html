@@ -1,0 +1,12 @@
+<div class="users-contianer">
+  <div class="users-logo-contianer" *ngIf="users && users?.length == 0">
+    <img class="users-logo" src="assets/icons/users-solid.svg" />
+  </div>
+
+  <div class="found-users-container" *ngIf="users && users?.length">
+    <div class="found-user" *ngFor="let user of users">
+      <div class="found-user__img"></div>
+      <div class="found-user__name">{{ user.name }}</div>
+    </div>
+  </div>
+</div>

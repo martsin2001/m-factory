@@ -6,5 +6,9 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-family: 'Barlow Semi Condensed';
+}
+
+mat-form-field .mat-form-field-label {
+  color: rgba(0, 0, 0, 0.54) !important;
 }

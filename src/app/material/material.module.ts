@@ -1,8 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatInputModule, MatFormFieldModule } from '@angular/material';
+import {
+  MatInputModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatButtonModule
+} from '@angular/material';
 
-const materialModules = [MatInputModule, MatFormFieldModule];
+const materialModules = [
+  MatInputModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatButtonModule
+];
 
 @NgModule({
   declarations: [],

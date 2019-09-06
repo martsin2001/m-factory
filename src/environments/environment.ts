@@ -4,7 +4,16 @@
 
 export const environment = {
   production: false,
-  appEndpoint: 'http://localhost:5000'
+  appEndpoint: 'http://localhost:5000',
+  firebaseConfig: {
+    apiKey: 'AIzaSyBahpo15_ml0n1G4R1DL9Yjkh_SK9_gusI',
+    authDomain: 'mfactory-900dc.firebaseapp.com',
+    databaseURL: 'https://mfactory-900dc.firebaseio.com',
+    projectId: 'mfactory-900dc',
+    storageBucket: 'mfactory-900dc.appspot.com',
+    messagingSenderId: '1015786481856',
+    appId: '1:1015786481856:web:8d9a102c240e5af8'
+  }
 };
 
 /*
