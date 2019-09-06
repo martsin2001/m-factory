@@ -1,0 +1,24 @@
+.secondary-panel-container {
+  width: 100%;
+  height: 100%;
+}
+
+.search-bar {
+  padding: 0px 15px;
+  box-sizing: border-box;
+  border-bottom: 2px solid #51d84a;
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.collocutor-cards-container {
+  box-sizing: border-box;
+  overflow: scroll;
+  height: calc(100% - 118.5px);
+}
+
+.bottom-toolbar {
+  height: 50px;
+  border-top: 2px solid #51d84a;
+}

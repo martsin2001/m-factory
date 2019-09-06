@@ -42,6 +42,19 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.defineRouteUrl();
+    this.setOnlineOrOfflienStatus();
+  }
+
+  setOnlineOrOfflienStatus() {
+    if (navigator.onLine) {
+      // this.auth.setStatusOnline().then();
+    }
+    window.addEventListener('online', () => {
+      // this.auth.setStatusOnline().then();
+    });
+    window.addEventListener('offline', () => {
+      this.auth.setStatusOffline().then();
+    });
   }
 
   ngOnDestroy() {

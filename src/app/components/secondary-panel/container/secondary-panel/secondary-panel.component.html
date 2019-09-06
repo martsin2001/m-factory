@@ -1,0 +1,31 @@
+<div class="secondary-panel-container">
+  <div class="search-bar">
+    <mat-form-field [floatLabel]="'never'" color="warn">
+      <input
+        matInput
+        placeholder="Name.."
+        autocomplete="off"
+        (focus)="isSearchFocused = true"
+        (blur)="isSearchFocused = false"
+        (keyup)="findUser($event.target)"
+      />
+      <button mat-button matSuffix mat-icon-button>
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <div class="collocutor-cards-container">
+    <div [hidden]="isSearchFocused || !!currentInputValue">
+      <ng-container *ngFor="let chat of chats | async">
+        <app-collocutor-card [chat]="chat"></app-collocutor-card>
+      </ng-container>
+    </div>
+    <app-mapping-found-users
+      *ngIf="isSearchFocused || !!currentInputValue"
+      [users]="foundUsers"
+    ></app-mapping-found-users>
+  </div>
+
+  <div class="bottom-toolbar"></div>
+</div>

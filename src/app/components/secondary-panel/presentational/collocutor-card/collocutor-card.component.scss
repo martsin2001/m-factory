@@ -1,0 +1,39 @@
+.collocutor-card {
+  padding: 15px;
+  border-bottom: 1px solid rgb(221, 221, 221);
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  cursor: pointer;
+  &:hover {
+    background: rgb(248, 248, 248);
+  }
+  &__user-image-contianer {
+    width: 50px;
+    height: 50px;
+    position: relative;
+    border-radius: 50%;
+    border: 1px solid rgb(221, 221, 221);
+  }
+  &__text-info-container {
+    padding-left: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .collocutor-name {
+      font-size: 18px;
+    }
+    .status {
+      font-size: 14px;
+      color: gray;
+    }
+  }
+  .mouse-over-panel {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 999;
+    left: 0;
+    top: 0;
+  }
+}

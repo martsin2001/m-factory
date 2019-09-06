@@ -61,7 +61,8 @@ export class SignupComponent implements OnInit, OnDestroy {
           if (res.status === 200) {
             this.resetSignUpForm();
             this.isSubmitting = false;
-            this.router.navigateByUrl('/about-us');
+            this.createFireNewUser(JSON.parse(res.body).user);
+            this.router.navigateByUrl('/main-toolbar');
           }
         });
     }
@@ -70,6 +71,26 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   showErrors(field: AbstractControl): boolean {
     return field.invalid && (field.touched || this.isFormSubmited);
+  }
+
+  private createFireNewUser(user: any) {
+    this.authService
+      .createFireNewUser({
+        name: user.name,
+        email: user.email,
+        status: true,
+        logo: null,
+        chatIds: []
+      })
+      .then(res => {
+        this.setUserKey(res.key);
+      });
+  }
+
+  private setUserKey(key: string) {
+    this.authService.setUserKey(key).subscribe((res: HttpResponse<any>) => {
+      localStorage.setItem('key', key);
+    });
   }
 
   private removeToken() {
